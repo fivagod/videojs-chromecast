@@ -8,7 +8,7 @@
  */
 
 var ChromecastButton;
-
+var Button = videojs.getComponent('Button')
 /**
 * The Video.js Button class is the base class for UI button components.
 *
@@ -27,8 +27,8 @@ ChromecastButton = {
     * @extends external:Button
     * @param player {Player} the video.js player instance
     */
-   constructor: function(player) {
-      this.constructor.super_.apply(this, arguments);
+   constructor: function(player, options) {
+      Button.call(this, player, options);
 
       player.on('chromecastConnected', this._onChromecastConnected.bind(this));
       player.on('chromecastDisconnected', this._onChromecastDisconnected.bind(this));
@@ -55,7 +55,7 @@ ChromecastButton = {
     */
    buildCSSClass: function() {
       return 'vjs-chromecast-button ' + (this._isChromecastConnected ? 'vjs-chromecast-casting-state ' : '') +
-         this.constructor.super_.prototype.buildCSSClass();
+         Button.prototype.buildCSSClass.call(this);
    },
 
    /**
@@ -153,6 +153,6 @@ ChromecastButton = {
 module.exports = function(videojs) {
    var ChromecastButtonImpl;
 
-   ChromecastButtonImpl = videojs.extend(videojs.getComponent('Button'), ChromecastButton);
+   ChromecastButtonImpl = videojs.extend(Button, ChromecastButton);
    videojs.registerComponent('chromecastButton', ChromecastButtonImpl);
 };

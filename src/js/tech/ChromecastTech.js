@@ -5,6 +5,7 @@ var ChromecastSessionManager = require('../chromecast/ChromecastSessionManager')
     _ = require('underscore'),
     SESSION_TIMEOUT = 10 * 1000, // milliseconds
     ChromecastTech;
+   var Tech = videojs.getComponent('Tech'),
 
 /**
  * @module ChomecastTech
@@ -44,7 +45,7 @@ ChromecastTech = {
       this._ui.updatePoster(this.videojsPlayer.poster());
 
       // Call the super class' constructor function
-      subclass = this.constructor.super_.apply(this, arguments);
+      subclass = Tech.call(this, arguments);
 
       this._remotePlayer = this._chromecastSessionManager.getRemotePlayer();
       this._remotePlayerController = this._chromecastSessionManager.getRemotePlayerController();
@@ -701,8 +702,7 @@ ChromecastTech = {
  * @see http://docs.videojs.com/Tech.html#.registerTech
  */
 module.exports = function(videojs) {
-   var Tech = videojs.getComponent('Tech'),
-       ChromecastTechImpl;
+   var ChromecastTechImpl;
 
    ChromecastTechImpl = videojs.extend(Tech, ChromecastTech);
 
